@@ -1,0 +1,16 @@
+{
+  "name": "bowling",
+  "version": "1.0.0",
+  "description": "DiUS Bowling code test - example",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [],
+  "author": "Matt Fellows",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0"
+  }
+}
