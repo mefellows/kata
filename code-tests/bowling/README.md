@@ -45,6 +45,8 @@ Their score is 20. So that's (4 + 6 + 5) + (5 + 0)
 
 - If in one try, the bowler knocks down all the pins, it is a strike. The scoring of a strike is the sum of the number of pins knocked down plus the number of pins knocked down in the next two bowls.
 
+-> question - what happens if the next two bowls are strikes? What even IS a bowl, if not a frame?
+
 E.g, if a bowler rolls, 10 | 5, 4
 
 Their score is 28. So that's (10 + 5 + 4) + ( 5 + 4)

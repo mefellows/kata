@@ -1,10 +1,12 @@
 const { sumArray } = require("./array");
 const MAX_PINS_IN_FRAME = 10;
 const BOWLS_PER_FRAME = 2;
+const BOWLS_PER_SPARE_FRAME = 1;
 
 class Frame extends Array {
-  constructor(data = []) {
+  constructor(data = [], frameSize = BOWLS_PER_FRAME) {
     super();
+    this.frameSize = frameSize;
 
     if (!Array.isArray(data)) {
       throw Error(
@@ -40,14 +42,20 @@ class Frame extends Array {
   }
 
   isComplete() {
-    return (
-      this.length == BOWLS_PER_FRAME || sumArray(this) == MAX_PINS_IN_FRAME
-    );
+    return this.length == this.frameSize || sumArray(this) == MAX_PINS_IN_FRAME;
   }
 }
 
+class SpareFrame extends Frame {
+  constructor(data = []) {
+    super(data, BOWLS_PER_SPARE_FRAME);
+  }
+}
+
+class StrikeFrame extends Frame {}
+
 module.exports = {
   Frame,
-  MAX_PINS_IN_FRAME,
-  BOWLS_PER_FRAME
+  SpareFrame,
+  StrikeFrame
 };

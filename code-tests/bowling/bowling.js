@@ -1,8 +1,6 @@
 const { flatten, sumArray } = require("./array");
-const { Frame } = require("./frame");
+const { Frame, SpareFrame, StrikeFrame } = require("./frame");
 const MAX_FRAMES = 10;
-const STRIKE_FRAMES = 2;
-const SPARE_FRAMES = 1;
 
 const sumNextBowls = (frames, n) => sumArray(flatten(frames).slice(0, n));
 
@@ -18,15 +16,51 @@ class BowlingGame {
       throw Error("Game is over, no more bowls :(");
     }
 
-    if (this.frames.length === 0 || !frame || frame.isComplete()) {
+    if (this.isNewFrame()) {
       frame = new Frame();
+
+      if (this.isSpareBonusRound()) {
+        frame = new SpareFrame();
+      } else if (this.isStrikeBonusRound()) {
+        frame = new StrikeFrame();
+      }
+
       this.frames.push(frame);
     }
+
     frame.roll(noOfPins);
   }
 
+  isNewFrame() {
+    return (
+      this.frames.length === 0 ||
+      !this.currentFrame() ||
+      this.currentFrame().isComplete()
+    );
+  }
+
   isGameFinished() {
-    return this.frames.length == MAX_FRAMES && this.currentFrame().isComplete();
+    const frame = this.currentFrame() || new Frame();
+
+    return (
+      this.frames.length >= MAX_FRAMES &&
+      frame.isComplete() &&
+      !this.isBonusRound()
+    );
+  }
+
+  isBonusRound() {
+    return this.isStrikeBonusRound() || this.isSpareBonusRound();
+  }
+
+  isStrikeBonusRound() {
+    const frame = this.currentFrame() || new Frame();
+    return frame.isStrike() && this.frames.length == MAX_FRAMES;
+  }
+
+  isSpareBonusRound() {
+    const frame = this.currentFrame() || new Frame();
+    return frame.isSpare() && this.frames.length == MAX_FRAMES;
   }
 
   currentFrame() {
